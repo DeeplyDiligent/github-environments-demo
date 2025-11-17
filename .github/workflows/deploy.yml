@@ -79,4 +79,4 @@ jobs:
         uses: actions/deploy-pages@v4
 
       - name: Print page URL
-        run: echo "Page URL: ${{ steps.deployment.outputs.page_url }}"
+        run: echo "Page URL=${{ steps.deployment.outputs.page_url }}"
