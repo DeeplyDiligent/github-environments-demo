@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Environments Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 80px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .info-card {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .label {
+            color: #718096;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .value {
+            color: #2d3748;
+            font-size: 1.8em;
+            font-weight: 700;
+            word-break: break-all;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-top: 30px;
+        }
+
+        .badge.prod {
+            background: #48bb78;
+            color: white;
+        }
+
+        .badge.dev {
+            background: #ed8936;
+            color: white;
+        }
+
+        .badge.test {
+            background: #4299e1;
+            color: white;
+        }
+
+        .badge.unknown {
+            background: #a0aec0;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 30px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .value {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 GitHub Environments Demo</h1>
+        
+        <div class="info-card">
+            <div class="label">Current Environment</div>
+            <div class="value" id="environment">xyz</div>
+        </div>
+
+        <div class="info-card">
+            <div class="label">Secret Variable</div>
+            <div class="value" id="secret">xyz</div>
+        </div>
+
+        <div id="badge-container"></div>
+    </div>
+
+    <script>
+        async function loadConfig() {
+            try {
+                const response = await fetch('config.json');
+                const config = await response.json();
+                
+                document.getElementById('environment').textContent = config.env || 'xyz';
+                document.getElementById('secret').textContent = config.secretVariable || 'xyz';
+                
+                // Add environment badge
+                const env = config.env?.toLowerCase() || '';
+                let badgeClass = 'unknown';
+                if (env.includes('prod')) badgeClass = 'prod';
+                else if (env.includes('dev')) badgeClass = 'dev';
+                else if (env.includes('test')) badgeClass = 'test';
+                
+                if (config.env) {
+                    document.getElementById('badge-container').innerHTML = 
+                        `<span class="badge ${badgeClass}">${config.env}</span>`;
+                }
+            } catch (error) {
+                console.error('Error loading config:', error);
+            }
+        }
+
+        loadConfig();
+    </script>
+</body>
+</html>
