@@ -64,7 +64,16 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
-
+      - name: Rename index.html based on environment
+        run: |
+          if [ "${{ needs.determine-environment.outputs.environment }}" = "prod" ]; then
+            mv index.html prod.html
+          elif [ "${{ needs.determine-environment.outputs.environment }}" = "test" ]; then
+            mv index.html test.html
+          else
+            mv index.html dev.html
+          fi
+          ls -l
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
