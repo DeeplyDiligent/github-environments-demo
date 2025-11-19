@@ -109,6 +109,8 @@
 <body>
     <div class="container">
         <h1>🚀 GitHub Environments Demo</h1>
+
+        <div id="words"></div>
         
         <div class="info-card">
             <div class="label">Current Environment</div>
@@ -121,6 +123,7 @@
         </div>
 
         <div id="badge-container"></div>
+        <div>😊😁</div>
     </div>
 
     <script>
@@ -131,6 +134,7 @@
                 
                 document.getElementById('environment').textContent = config.env || 'xyz';
                 document.getElementById('secret').textContent = config.secretVariable || 'xyz';
+                document.getElementById('words').textContent = config.words || 'xyz';
                 
                 // Add environment badge
                 const env = config.env?.toLowerCase() || '';
